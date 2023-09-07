@@ -1,10 +1,10 @@
 function App() {
 
-  return (
-    <p>
-      Todo task list
-    </p>
-  )
+    return (
+        <h1 className="text-3xl font-bold">
+            Todo task list
+        </h1>
+    )
 }
 
 export default App
