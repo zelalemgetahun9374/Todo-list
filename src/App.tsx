@@ -10,8 +10,24 @@ type taskType = {
 type filterType = "all" | "completed" | "uncompleted"
 const TASK_KEY = "task_list"
 
+function isTaskType(obj: any): boolean {
+    return ((typeof obj === "object") &&
+        ((obj as taskType).id !== undefined && (obj as taskType).name !== undefined && (obj as taskType).completed !== undefined) &&
+        (typeof obj.id === "number" && typeof obj.name === "string" && typeof obj.completed === "boolean"));
+}
+
 function App() {
-    const [tasks, setTasks] = useState<taskType[]>([])
+    const [tasks, setTasks] = useState<taskType[]>(() => {
+        try {
+            const value = JSON.parse(localStorage.getItem(TASK_KEY) || "")
+            if (Array.isArray(value)) return value.filter((task) => isTaskType(task))
+
+        } catch (error) {
+            console.log(error)
+        }
+
+        return []
+    })
 
     const [visibleTasks, setVisibleTasks] = useState<taskType[]>([])
     const [filter, setFilter] = useState<filterType>("all")
@@ -78,7 +94,7 @@ function App() {
                         onKeyDown={e => { e.key === 'Enter' ? addTask() : null }}
                         ref={newTaskInputRef}
                     />
-                    
+
                     <button
                         type="submit"
                         className="ml-2 px-2 py-1.5  text-white bg-blue-500 border-2 border-blue-500 rounded-lg flex"
@@ -99,7 +115,7 @@ function App() {
                         <span>Uncompleted</span>
                     </button>
                 </div>
-               
+
                 <ul id="task_list" className="flex flex-col self-start gap-2 w-full pr-2 overflow-y-auto overflow-x-hidden">
                     {
                         visibleTasks.map((task) =>
