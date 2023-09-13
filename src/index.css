@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input[type="checkbox"]:checked + label span:first-of-type {
+    background-color: #10b981;
+    border-color: #10b981;
+    color: #fff;
+}
+
+#task_list::-webkit-scrollbar {
+    width: 5px;
+    cursor: pointer;
+}
+
+#task_list::-webkit-scrollbar-track {
+    background-color: rgba(229, 231, 235, var(--bg-opacity));
+    cursor: pointer;
+}
+
+#task_list::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    background-color: #c8d4ed;
+}
