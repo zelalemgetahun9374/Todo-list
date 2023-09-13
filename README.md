@@ -1,27 +1,65 @@
-# React + TypeScript + Vite
+# React task list
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A react-based task list application that allows users to create tasks, mark tasks as completed or uncompleted and delete tasks.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+-   Create tasks by typing in the input and clicking the add button or pressing the Enter key.
+-   Mark tasks as completed or uncompleted.
+-   Persist task list in local storage.
+-   Simple and intuitive user interface.
 
-## Expanding the ESLint configuration
+## Steps to run
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Follow these steps to set up and run the task list app on your local machine:
 
-- Configure the top-level `parserOptions` property like this:
+1. Clone the repository:
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+    ```shell
+    git clone https://github.com/zelalemgetahun9374/Todo-list.git
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+    ```
+
+2. Install the dependencies:
+
+    For npm users
+
+    ```shell
+    npm install
+    ```
+
+    For yarn users
+
+    ```shell
+    yarn
+    ```
+
+3. Start the development server:
+   For npm users
+
+    ```shell
+    npm run dev
+    ```
+
+    For yarn users
+
+    ```shell
+    yarn dev
+    ```
+
+4. Open your browser and navigate to `http://localhost:5173/` to access the app.
+
+## Usage
+
+-   Type in the input field and click the add button or press the Enter key to create a new task
+-   Click the task name or circle checkbox to mark a task as completed or uncompleted
+-   Click the red delete icon to delete a task
+
+## Technologies Used
+
+-   HTML/CSS
+-   Tailwind Css
+-   React
+-   TypeScript
+-   Vite
+    A README explaining how to run the code
