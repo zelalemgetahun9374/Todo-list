@@ -35,7 +35,8 @@ Follow these steps to set up and run the task list app on your local machine:
     ```
 
 3. Start the development server:
-   For npm users
+
+    For npm users
 
     ```shell
     npm run dev
