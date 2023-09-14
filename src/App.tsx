@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useRef, useState } from "react"
+import { useCallback, useEffect, useReducer, useRef, useState } from "react"
 import TaskItem from "./components/TaskItem"
 
 type taskType = {
@@ -62,6 +62,7 @@ function tasksReducer(state: taskType[], action: tasksReducerActionType): taskTy
             return state.filter(task => task.id !== action.id)
     }
 }
+
 function App() {
     const [tasks, dispatch] = useReducer(tasksReducer, null, getStoredTasks)
 
@@ -88,7 +89,7 @@ function App() {
         }
     }, [tasks, filter])
 
-    function handleAddTask() {
+    const handleAddTask = useCallback(() => {
         const task = newTaskInputRef.current?.value
         if (task) {
             dispatch({ type: "add_task", name: task })
@@ -97,15 +98,15 @@ function App() {
         } else {
             console.log("New task can't be empty");
         }
-    }
+    }, [])
 
-    function handleDeleteTask(id: number) {
+    const handleDeleteTask = useCallback((id: number) => {
         dispatch({ type: "delete_task", id: id })
-    }
+    }, [])
 
-    function handleUpdateTask(id: number) {
+    const handleUpdateTask = useCallback((id: number) => {
         dispatch({ type: "update_task", id: id })
-    }
+    }, [])
 
     return (
         <main className="flex items-center justify-center min-h-screen bg-gray-2 00">
