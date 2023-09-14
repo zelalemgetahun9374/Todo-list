@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useReducer, useRef, useState } from "react"
 import TaskItem from "./components/TaskItem"
 
 type taskType = {
@@ -6,6 +6,19 @@ type taskType = {
     name: string,
     completed: boolean
 }
+
+type addTaskReducerActionType = {
+    type: "add_task",
+    name: string
+}
+
+type otherTaskReducerActionType = {
+    type: "delete_task" | "update_task",
+    id: number
+}
+
+type tasksReducerActionType = addTaskReducerActionType | otherTaskReducerActionType
+
 
 type filterType = "all" | "completed" | "uncompleted"
 const TASK_KEY = "task_list"
@@ -16,18 +29,41 @@ function isTaskType(obj: any): boolean {
         (typeof obj.id === "number" && typeof obj.name === "string" && typeof obj.completed === "boolean"));
 }
 
+function getStoredTasks(): taskType[] {
+    try {
+        const value = JSON.parse(localStorage.getItem(TASK_KEY) || "")
+        if (Array.isArray(value)) return value.filter((task) => isTaskType(task))
+
+    } catch (error) {
+        console.log(error)
+    }
+
+    return []
+}
+
+function tasksReducer(state: taskType[], action: tasksReducerActionType): taskType[] {
+    switch (action.type) {
+        case "add_task":
+            return [...state, {
+                id: state.length == 0 ? 0 : state[state.length - 1].id + 1,
+                name: action.name,
+                completed: false
+            }]
+
+        case "update_task":
+            return state.map(task => {
+                if (task.id === action.id) {
+                    return { ...task, completed: !task.completed }
+                }
+                return task
+            })
+
+        case "delete_task":
+            return state.filter(task => task.id !== action.id)
+    }
+}
 function App() {
-    const [tasks, setTasks] = useState<taskType[]>(() => {
-        try {
-            const value = JSON.parse(localStorage.getItem(TASK_KEY) || "")
-            if (Array.isArray(value)) return value.filter((task) => isTaskType(task))
-
-        } catch (error) {
-            console.log(error)
-        }
-
-        return []
-    })
+    const [tasks, dispatch] = useReducer(tasksReducer, null, getStoredTasks)
 
     const [visibleTasks, setVisibleTasks] = useState<taskType[]>([])
     const [filter, setFilter] = useState<filterType>("all")
@@ -55,11 +91,7 @@ function App() {
     function addTask() {
         const task = newTaskInputRef.current?.value
         if (task) {
-            setTasks((tasks) => [...tasks, {
-                id: tasks.length == 0 ? 0 : tasks[tasks.length - 1].id + 1,
-                name: task,
-                completed: false
-            }])
+            dispatch({ type: "add_task", name: task })
             newTaskInputRef.current.value = ""
             newTaskInputRef.current.focus();
         } else {
@@ -68,16 +100,11 @@ function App() {
     }
 
     function deleteTask(id: number) {
-        setTasks((tasks) => tasks.filter(task => task.id !== id))
+        dispatch({ type: "delete_task", id: id })
     }
 
     function updateTask(id: number) {
-        setTasks((tasks) => tasks.map(task => {
-            if (task.id === id) {
-                return { ...task, completed: !task.completed }
-            }
-            return task
-        }))
+        dispatch({ type: "update_task", id: id })
     }
 
     return (
