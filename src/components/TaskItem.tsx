@@ -1,4 +1,4 @@
-import { useId } from 'react'
+import { memo, useId } from 'react'
 import deleteIcon from '../assets/delete.png'
 
 type taskItemProps = {
@@ -9,8 +9,9 @@ type taskItemProps = {
     onDeleteTask: (id: number) => void,
 }
 
-const TaskItem = ({ id, name, completed, onUpdateTask, onDeleteTask }: taskItemProps) => {
+const TaskItem = memo(({ id, name, completed, onUpdateTask, onDeleteTask }: taskItemProps) => {
     const checkboxId = useId();
+    console.log(checkboxId)
 
     return (
         <li className='flex items-center gap-2 w-full'>
@@ -23,7 +24,7 @@ const TaskItem = ({ id, name, completed, onUpdateTask, onDeleteTask }: taskItemP
                 </span>
                 <p className={`ml-2 text-lg grow px-2 rounded-sm ${completed ? 'text-[#9CA3AF] line-through' : 'text-gray-900'}`}>{name}</p>
             </label>
-            
+
             <div className="group relative grow-0 shrink-0 flex flex-col align-bottom">
                 <button
                     type='button'
@@ -37,6 +38,6 @@ const TaskItem = ({ id, name, completed, onUpdateTask, onDeleteTask }: taskItemP
             </div>
         </li>
     )
-}
+})
 
 export default TaskItem
