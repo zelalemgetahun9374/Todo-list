@@ -5,16 +5,16 @@ type taskItemProps = {
     id: number,
     name: string,
     completed: boolean,
-    updateTask: (id: number) => void,
-    deleteTask: (id: number) => void,
+    onUpdateTask: (id: number) => void,
+    onDeleteTask: (id: number) => void,
 }
 
-const TaskItem = ({ id, name, completed, updateTask, deleteTask }: taskItemProps) => {
+const TaskItem = ({ id, name, completed, onUpdateTask, onDeleteTask }: taskItemProps) => {
     const checkboxId = useId();
 
     return (
         <li className='flex items-center gap-2 w-full'>
-            <input className="hidden grow-0 shrink-0" type="checkbox" id={checkboxId} checked={completed} onChange={() => updateTask(id)} />
+            <input className="hidden grow-0 shrink-0" type="checkbox" id={checkboxId} checked={completed} onChange={() => onUpdateTask(id)} />
             <label className="flex items-center grow px-2 py-1.5 rounded cursor-pointer hover:bg-gray-100 border border-" htmlFor={checkboxId}>
                 <span className="flex items-center justify-center w-5 h-5 text-transparent border-2 border-gray-300 rounded-full">
                     <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20" fill="currentColor">
@@ -27,7 +27,7 @@ const TaskItem = ({ id, name, completed, updateTask, deleteTask }: taskItemProps
             <div className="group relative grow-0 shrink-0 flex flex-col align-bottom">
                 <button
                     type='button'
-                    onClick={() => deleteTask(id)}
+                    onClick={() => onDeleteTask(id)}
                     className='text-white border border-red-200 hover:bg-red-200 focus:ring-4 focus:outline-none focus:ring-red-300 
                         font-medium rounded text-sm p-1 text-center inline-flex items-center mr-2'
                 >

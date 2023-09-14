@@ -88,7 +88,7 @@ function App() {
         }
     }, [tasks, filter])
 
-    function addTask() {
+    function handleAddTask() {
         const task = newTaskInputRef.current?.value
         if (task) {
             dispatch({ type: "add_task", name: task })
@@ -99,11 +99,11 @@ function App() {
         }
     }
 
-    function deleteTask(id: number) {
+    function handleDeleteTask(id: number) {
         dispatch({ type: "delete_task", id: id })
     }
 
-    function updateTask(id: number) {
+    function handleUpdateTask(id: number) {
         dispatch({ type: "update_task", id: id })
     }
 
@@ -118,14 +118,14 @@ function App() {
                         placeholder="Add a new task"
                         className="w-60 px-2 py-1 border-b-2 border-blue-500 focus:outline-none bg-transparent placeholder-gray-400/70 text-gray-700"
                         type="text"
-                        onKeyDown={e => { e.key === 'Enter' ? addTask() : null }}
+                        onKeyDown={e => { e.key === 'Enter' ? handleAddTask() : null }}
                         ref={newTaskInputRef}
                     />
 
                     <button
                         type="submit"
                         className="ml-2 px-2 py-1.5  text-white bg-blue-500 border-2 border-blue-500 rounded-lg flex"
-                        onClick={addTask}
+                        onClick={handleAddTask}
                     >
                         <svg className="h-6 w-6" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <circle cx="12" cy="12" r="9" />  <line x1="9" y1="12" x2="15" y2="12" />  <line x1="12" y1="9" x2="12" y2="15" /></svg>
                         <span> Add</span>
@@ -151,8 +151,8 @@ function App() {
                                 id={task.id}
                                 name={task.name}
                                 completed={task.completed}
-                                updateTask={updateTask}
-                                deleteTask={deleteTask}
+                                onUpdateTask={handleUpdateTask}
+                                onDeleteTask={handleDeleteTask}
                             />)
                     }
                 </ul>
