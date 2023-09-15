@@ -108,16 +108,20 @@ function App() {
         dispatch({ type: "update_task", id: id })
     }, [])
 
+    const handleFilterChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+        setFilter(e.target.value as filterType)
+    }, [])
+
     return (
-        <main className="flex items-center justify-center min-h-screen bg-gray-2 00">
-            <div className={`flex flex-col items-center gap-4 w-[600px] lg:w-[760px] h-[90vh] m-auto my-4 p-8 bg-[#fbfcfc] border border-gray-300 rounded-xl shadow-2xl`}>
+        <main className="flex items-center justify-center min-h-screen bg-gray-200">
+            <div className={`flex flex-col items-center gap-4 p-4 w-[94vw] xs:w-[92vw] sm:w-[600px] lg:w-[760px] h-[90vh] m-auto bg-[#fbfcfc] border border-gray-300 rounded-xl shadow-2xl`}>
                 <h1 className="text-3xl font-medium text-sky-900 text-center ">
-                    Todo task list
+                    Todo Task List
                 </h1>
-                <div className="flex">
+                <div className="flex flex-col sm:flex-row gap-2 justify-center items-center">
                     <input
                         placeholder="Add a new task"
-                        className="w-60 px-2 py-1 border-b-2 border-blue-500 focus:outline-none bg-transparent placeholder-gray-400/70 text-gray-700"
+                        className="w-fit xs:w-60 px-2 py-1 border-b-2 border-blue-500 focus:outline-none bg-transparent placeholder-gray-400/70 text-gray-700"
                         type="text"
                         onKeyDown={e => { e.key === 'Enter' ? handleAddTask() : null }}
                         ref={newTaskInputRef}
@@ -125,14 +129,14 @@ function App() {
 
                     <button
                         type="submit"
-                        className="ml-2 px-2 py-1.5  text-white bg-blue-500 border-2 border-blue-500 rounded-lg flex"
+                        className="ml-2 px-2 py-1.5 text-white bg-blue-500 border-2 border-blue-500 rounded-lg flex items-center justify-center gap-1 w-fit"
                         onClick={handleAddTask}
                     >
                         <svg className="h-6 w-6" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <circle cx="12" cy="12" r="9" />  <line x1="9" y1="12" x2="15" y2="12" />  <line x1="12" y1="9" x2="12" y2="15" /></svg>
                         <span> Add</span>
                     </button>
                 </div>
-                <div className="flex bg-white border divide-x rounded-lg mt-8">
+                <div className="bg-white border divide-x rounded-lg hidden sm:flex sm:mt-4">
                     <button className={`flex items-center px-4 py-2 text-sm font-medium rounded-l-lg transition-colors duration-200 sm:text-base sm:px-6 hover:bg-blue-600 hover:text-white ${filter === "all" ? 'text-white bg-blue-600 outline-none' : 'bg-none text-blue-600'}`} onClick={() => { setFilter("all") }}>
                         <span>All</span>
                     </button>
@@ -144,7 +148,15 @@ function App() {
                     </button>
                 </div>
 
-                <ul id="task_list" className="flex flex-col self-start gap-2 w-full pr-2 overflow-y-auto overflow-x-hidden">
+                <div className="w-max block my-2 sm:hidden">
+                    <select name="Filter" id="filter" className="border-2 border-blue-500 p-1" onChange={handleFilterChange} defaultValue="all">
+                        <option value="all"><p className="text-sm font-medium text-green-400">All</p></option>
+                        <option value="completed">Completed</option>
+                        <option value="uncompleted">Uncompleted</option>
+                    </select>
+                </div>
+
+                <ul id="task_list" className="flex flex-col self-start gap-2 w-full overflow-y-auto overflow-x-hidden">
                     {
                         visibleTasks.map((task) =>
                             <TaskItem
