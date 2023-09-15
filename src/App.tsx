@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useReducer, useRef, useState } from "react"
 import TaskItem from "./components/TaskItem"
 
+// TYPES
 type taskType = {
     id: number,
     name: string,
@@ -19,19 +20,23 @@ type otherTaskReducerActionType = {
 
 type tasksReducerActionType = addTaskReducerActionType | otherTaskReducerActionType
 
-
 type filterType = "all" | "completed" | "uncompleted"
-const TASK_KEY = "task_list"
 
+
+// local storage key name for storing tasks
+const TASKS_KEY = "task_list"
+
+// trys to check if an object is of type 'taskType[]'
 function isTaskType(obj: any): boolean {
     return ((typeof obj === "object") &&
         ((obj as taskType).id !== undefined && (obj as taskType).name !== undefined && (obj as taskType).completed !== undefined) &&
         (typeof obj.id === "number" && typeof obj.name === "string" && typeof obj.completed === "boolean"));
 }
 
+// implements logic to extract valid tasks from local storage
 function getStoredTasks(): taskType[] {
     try {
-        const value = JSON.parse(localStorage.getItem(TASK_KEY) || "")
+        const value = JSON.parse(localStorage.getItem(TASKS_KEY) || "")
         if (Array.isArray(value)) return value.filter((task) => isTaskType(task))
 
     } catch (error) {
@@ -41,6 +46,7 @@ function getStoredTasks(): taskType[] {
     return []
 }
 
+// reducer function that handles adding, updating and deleting tasks
 function tasksReducer(state: taskType[], action: tasksReducerActionType): taskType[] {
     switch (action.type) {
         case "add_task":
@@ -72,7 +78,7 @@ function App() {
     const newTaskInputRef = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
-        localStorage.setItem(TASK_KEY, JSON.stringify(tasks));
+        localStorage.setItem(TASKS_KEY, JSON.stringify(tasks));
     }, [tasks])
 
     useEffect(() => {
