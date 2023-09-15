@@ -60,7 +60,7 @@ Follow these steps to set up and run the task list app on your local machine:
 -   Type in the input field and click the add button or press the Enter key to create a new task
 -   Click the task name or circle checkbox to mark a task as completed or uncompleted
 -   Click the red delete icon to delete a task
--   Filter the tasks by clicking of the select options in mobile or one of the buttons in the button group in tablet and desktop sizes 
+-   Filter the tasks by clicking of the select options in mobile or one of the buttons in the button group in tablet and desktop sizes
 
 ## Technologies Used
 
@@ -69,4 +69,3 @@ Follow these steps to set up and run the task list app on your local machine:
 -   React
 -   TypeScript
 -   Vite
-    A README explaining how to run the code
